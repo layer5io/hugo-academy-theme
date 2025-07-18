@@ -1,12 +1,10 @@
 body {
-  background-image: linear-gradient(
-    to right bottom,
-    rgb(222, 226, 230),
-    rgb(210, 215, 220),
-    rgb(197, 203, 209),
-    rgb(185, 192, 199),
-    rgb(173, 181, 189)
-  );
+  background-image: linear-gradient(to right bottom,
+      rgb(222, 226, 230),
+      rgb(210, 215, 220),
+      rgb(197, 203, 209),
+      rgb(185, 192, 199),
+      rgb(173, 181, 189));
 }
 
 .td-main .row {
@@ -30,15 +28,22 @@ body {
   padding: 1rem;
 
   &::-webkit-scrollbar {
-    display: none; /* chrome */
+    display: none;
+    /* chrome */
   }
+
   .td-sidebar-nav {
     &::-webkit-scrollbar {
-      display: none; /* chrome */
+      display: none;
+      /* chrome */
     }
   }
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
   .foldable-nav {
     .td-sidebar-nav__section-title {
       cursor: pointer;
@@ -48,6 +53,7 @@ body {
         transform: rotate(90deg);
       }
     }
+
     .foldable {
       transition: all 0.3s ease-in-out;
       overflow: hidden;
@@ -92,6 +98,7 @@ body {
   .td-sidebar__inner {
     height: auto !important;
   }
+
   .td-sidebar {
     max-height: 90vh;
     background: #fff;
@@ -99,7 +106,49 @@ body {
     padding: 1rem;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   }
+
   .collapse:not(.show) {
     display: none !important;
   }
+}
+
+
+.pagination-nav {
+  grid-gap: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+
+.pagination-nav__link {
+  border-radius: 0.4rem;
+  display: block;
+  height: 100%;
+  line-height: 1.25;
+  padding: 1rem;
+}
+
+.pagination-nav__link--prev {
+  text-align: left;
+  text-decoration: none;
+}
+
+.pagination-nav__link--next {
+  grid-column: 2 / 3;
+  text-align: right;
+  text-decoration: none ;
+}
+
+.pagination-nav__sublabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.pagination-nav__label {
+  font-size: 1rem;
+  font-weight: 600;
+  word-break: break-word;
+  text-decoration: none;
 }

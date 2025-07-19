@@ -1,0 +1,59 @@
+<div id="myModal" class="modal">
+  <button class="modal-close" onclick="closeModal()">close</button>
+  <div class="modal-cont">
+    <img class="modal-pic" id="modalPic" onclick="closeModal()" style="max-width: 100%; max-height: 80vh; margin: auto;" alt="Modal-pic">
+  </div>
+</div>
+
+<script>
+// Open the Modal
+function openModal(imageIdOrElement) {
+  var src;
+
+  if (typeof imageIdOrElement === 'string') {
+    // If it's a string (image ID), get the source using the ID
+    src = document.getElementById(imageIdOrElement).src;
+  } else if (imageIdOrElement instanceof HTMLImageElement) {
+    // If <img>, get the source directly
+    src = imageIdOrElement.src;
+  }
+
+  if (src && src.includes("#")) {
+    src = src.substring(0, src.indexOf("#"));
+  }
+
+  document.getElementById("modalPic").src = src;
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() { 
+  document.getElementById("modalPic").src = "";
+  document.getElementById("myModal").style.display = "none";
+}
+
+// Listen for the Escape key to close the modal
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    closeModal();
+  }
+});
+
+// Attach onclick attribute to all <img> after DOM is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  var imgTags = document.querySelectorAll("img");
+  imgTags.forEach(function (img) {
+    img.onclick = function () {
+      if (img.dataset.modal !== "false") {
+        openModal(img);
+      }
+    };
+  });
+
+  // Close modal when clicking anywhere inside #myModal
+  var modal = document.getElementById("myModal");
+  modal.addEventListener("click", function () {
+    closeModal();
+  });
+});
+</script>

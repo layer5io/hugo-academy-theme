@@ -76,7 +76,7 @@ params:
     taxonomyCloud: [tags, categories]
 
     # If used, must have same length as taxonomyCloud
-    taxonomyCloudTitle: [Tag Cloud, Categories]
+    taxonomyCloudTitle: [Tags, Categories]
 
     # set taxonomyPageHeader = [] to hide taxonomies on the page headers
     taxonomyPageHeader: [tags, categories]
@@ -105,7 +105,7 @@ params:
   url_latest_version: https://example.com
 
   # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-  github_repo: https://github.com/google/docsy-example
+  github_repo:   https://github.com/layer5io/academy-example
 
   # An optional link to a related project repo. For example, the sibling repository where your product code lives.
   github_project_repo: https://github.com/google/docsy
@@ -118,10 +118,10 @@ params:
   github_branch: main
 
   # Google Custom Search Engine ID. Remove or comment out to disable search.
-  gcs_engine_id: d72aa9b2712488cc3
+  # gcs_engine_id: d72aa9b2712488cc3
 
   # Enable Lunr.js offline search
-  offlineSearch: false
+  offlineSearch: true
 
   # Enable syntax highlighting and copy buttons on code blocks with Prism
   prism_syntax_highlighting: false
@@ -142,8 +142,6 @@ params:
     navbar_translucent_over_cover_disable: false
     # Enable to show the side bar menu in its compact state.
     sidebar_menu_compact: true
-    # Set to true to enable foldable sidebar menu (accordion behavior)
-    sidebar_menu_foldable: false
     # Set to true to hide the sidebar search box (the top nav search box will still be displayed if search is enabled)
     sidebar_search_disable: false
 

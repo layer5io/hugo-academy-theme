@@ -1,0 +1,22 @@
+<!-- Usage:
+{{< question 
+      id="q-no" 
+      text="your-question" 
+      options="option1 | option2 | option3 | option4" 
+      correct="correct-option-index" 
+  >}} -->
+
+{{ $question := .Get "text" }}
+
+{{ $options := split (.Get "options") "|" }}
+
+<div class="question" id="{{ .Get "id" }}" data-correct="{{ .Get "correct" }}">
+  <p>{{ $question }}</p>
+  {{ $options }}
+  {{ range $index, $option := $options }}
+    <div>
+      <input type="radio" name="{{ $.Get "id" }}" value="{{ $index }}" id="{{ $.Get "id" }}-{{ $index }}">
+      <label for="{{ $.Get "id" }}-{{ $index }}">{{ $option }}</label>
+    </div>
+  {{ end }}
+</div>

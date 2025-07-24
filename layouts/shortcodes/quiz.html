@@ -1,18 +1,5 @@
-<!-- Usage: 
-{{< quiz id="id" title="title" >}}
-  {{< question 
-      id="q-no" 
-      text="your-question" 
-      options="option1 | option2 | option3 | option4" 
-      correct="correct-option-index" 
-  >}}
-  add more
-{{< /quiz >}} -->
-
-{{ $title := .Get "title" }}
-
 <div class="quiz-container" id="quiz-{{ .Get "id" }}">
-  <h3>{{ $title }}</h3>
+  <h3>{{ .Get "title" }}</h3>
   <form class="quiz-form">
     {{ .Inner }}
     <button type="button" class="check-answers">Check Answers</button>

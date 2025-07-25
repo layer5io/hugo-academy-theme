@@ -1,0 +1,10 @@
+<div class="question" id="{{ .Get "id" }}" data-correct="{{ .Get "correct" }}">
+  <p>{{ .Get "text" }}</p>
+  {{ $options := split (.Get "options") "|" }}
+  {{ range $index, $option := $options }}
+    <div>
+      <input type="radio" name="{{ $.Get "id" }}" value="{{ $index }}" id="{{ $.Get "id" }}-{{ $index }}">
+      <label for="{{ $.Get "id" }}-{{ $index }}">{{ $option }}</label>
+    </div>
+  {{ end }}
+</div>

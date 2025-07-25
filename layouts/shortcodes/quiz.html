@@ -1,0 +1,53 @@
+<div class="quiz-container" id="quiz-{{ .Get "id" }}">
+  <h3>{{ .Get "title" }}</h3>
+  <form class="quiz-form">
+    {{ .Inner }}
+    <button type="button" class="check-answers">Check Answers</button>
+  </form>
+  <div class="quiz-feedback"></div>
+</div>
+
+<style>
+.quiz-container {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 5px;
+}
+.question {
+  margin-bottom: 1rem;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.check-answers').forEach(button => {
+    button.addEventListener('click', function() {
+      const container = this.closest('.quiz-container');
+      const feedbackDiv = container.querySelector('.quiz-feedback');
+      let score = 0;
+      let total = 0;
+      
+      container.querySelectorAll('.question').forEach(question => {
+        const correctAnswer = question.getAttribute('data-correct');
+        const selected = question.querySelector(`input[name="${question.id}"]:checked`);
+        
+        if (selected) {
+          total++;
+          if (selected.value === correctAnswer) {
+            score++;
+            question.classList.add('correct');
+            question.classList.remove('incorrect');
+          } else {
+            question.classList.add('incorrect');
+            question.classList.remove('correct');
+          }
+        }
+      });
+      
+      feedbackDiv.innerHTML = `You scored ${score} out of ${total}`;
+    });
+  });
+});
+</script>

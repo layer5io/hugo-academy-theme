@@ -1,0 +1,121 @@
+{{ define "main" }}
+<article class="quiz-container">
+    <h1>{{ .Title }}</h1>
+    <div class="prose">
+        {{ .Content }}
+    </div>
+
+    <form id="quiz-form">
+        {{ range $index, $question := .Params.questions }}
+        <div class="question-block" id="question-{{ $index }}" data-answer="{{ $question.answer }}">
+            <p class="question-text"><strong>Question {{ add $index 1 }}:</strong> {{ $question.text }}</p>
+
+            {{/* MULTIPLE CHOICE */}}
+            {{ if eq $question.type "multiple-choice" }}
+                <div class="options">
+                    {{ range $option := $question.options }}
+                    <label>
+                        <input type="radio" name="question-{{ $index }}" value="{{ $option }}">
+                        {{ $option }}
+                    </label>
+                    {{ end }}
+                </div>
+            {{ end }}
+
+            {{/* TRUE / FALSE */}}
+            {{ if eq $question.type "true-false" }}
+                <div class="options">
+                    <label><input type="radio" name="question-{{ $index }}" value="true"> True</label>
+                    <label><input type="radio" name="question-{{ $index }}" value="false"> False</label>
+                </div>
+            {{ end }}
+
+            {{/* SHORT ANSWER */}}
+            {{ if eq $question.type "short-answer" }}
+                <div class="options">
+                    <input type="text" name="question-{{ $index }}" placeholder="Your answer...">
+                </div>
+            {{ end }}
+            <div class="feedback"></div>
+        </div>
+        {{ end }}
+
+        <button type="submit" id="submit-btn">Check Answers</button>
+        <div id="quiz-results"></div>
+    </form>
+</article>
+
+{{/* Add the JavaScript and CSS directly here for simplicity */}}
+<script>
+    document.getElementById('quiz-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        let score = 0;
+        const questions = document.querySelectorAll('.question-block');
+        const totalQuestions = questions.length;
+
+        questions.forEach((question, index) => {
+            const correctAnswer = question.dataset.answer;
+            const feedbackEl = question.querySelector('.feedback');
+            const inputName = `question-${index}`;
+            const selectedInput = document.querySelector(`input[name="${inputName}"]:checked`);
+            const textInput = document.querySelector(`input[type="text"][name="${inputName}"]`);
+
+            let userAnswer = null;
+            if (selectedInput) {
+                userAnswer = selectedInput.value;
+            } else if (textInput) {
+                userAnswer = textInput.value.trim();
+            }
+
+            // Reset styles
+            question.classList.remove('correct', 'incorrect');
+            feedbackEl.textContent = '';
+            
+            if (userAnswer === null || userAnswer === "") {
+                feedbackEl.textContent = 'Please answer this question.';
+                question.classList.add('incorrect');
+                return;
+            }
+
+            // Case-insensitive comparison for text answers
+            const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+
+            if (isCorrect) {
+                score++;
+                question.classList.add('correct');
+                feedbackEl.textContent = 'Correct! ✅';
+            } else {
+                question.classList.add('incorrect');
+                feedbackEl.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
+            }
+
+            // Disable all inputs in this question block after checking
+            question.querySelectorAll('input').forEach(input => input.disabled = true);
+        });
+
+        const resultsEl = document.getElementById('quiz-results');
+        const percentage = Math.round((score / totalQuestions) * 100);
+        resultsEl.innerHTML = `<h3>Your Score: ${score} out of ${totalQuestions} (${percentage}%)</h3>`;
+
+        // Hide the submit button after submission
+        document.getElementById('submit-btn').style.display = 'none';
+    });
+</script>
+
+<style>
+    .quiz-container { max-width: 700px; margin: 2rem auto; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .prose { margin-bottom: 2rem; }
+    .question-block { margin-bottom: 1.5rem; padding: 1rem; border: 1px solid #ddd; border-left-width: 5px; border-left-color: #ddd; border-radius: 5px; }
+    .question-text { margin-top: 0; }
+    .options label { display: block; margin-bottom: 0.5rem; cursor: pointer; }
+    .options input[type="text"] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .feedback { margin-top: 0.75rem; font-weight: bold; }
+    #submit-btn { padding: 10px 20px; font-size: 1rem; cursor: pointer; border: none; background-color: #007bff; color: white; border-radius: 5px; }
+    #quiz-results { margin-top: 1.5rem; padding: 1rem; background-color: #f0f8ff; border-radius: 5px; text-align: center; }
+    .correct { border-left-color: #28a745; background-color: #f0fff4; }
+    .correct .feedback { color: #28a745; }
+    .incorrect { border-left-color: #dc3545; background-color: #fff5f5; }
+    .incorrect .feedback { color: #dc3545; }
+</style>
+
+{{ end }}
